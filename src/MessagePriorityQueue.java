@@ -22,7 +22,7 @@ public class MessagePriorityQueue{
 		priorityQueue.add(new LinkedList<Message>());
 		time = 0;	
 	}
-	
+	//
 	
 	/**
 	 * @author Aidan-S
