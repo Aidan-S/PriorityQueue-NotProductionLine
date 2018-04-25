@@ -4,10 +4,15 @@ import java.util.Queue;
 
 //
 public class MessagePriorityQueue{
- 
+
 	private ArrayList<Queue> priorityQueue;
-	private int arrivalTime;
+	private int time;
 	
+	/**
+	 * @author Aidan-S
+	 * date: April 24th, 2018
+	 * method: constructor that creates the priorityQueue by filling it with the 5 different priority queues
+	 */
 	public MessagePriorityQueue() {
 		priorityQueue = new ArrayList<Queue>(5);
 		priorityQueue.add(new LinkedList<Message>());
@@ -15,13 +20,20 @@ public class MessagePriorityQueue{
 		priorityQueue.add(new LinkedList<Message>());
 		priorityQueue.add(new LinkedList<Message>());
 		priorityQueue.add(new LinkedList<Message>());
-		arrivalTime = 0;	
+		time = 0;	
 	}
 	
+	
+	/**
+	 * @author Aidan-S
+	 * date: April 24th, 2018
+	 * method: add a message to the priority queue based on its priority feild
+	 * @param m: the message that is being added
+	 */
 	public void add(Message m) {
 		int s = m.getPriority();
-		arrivalTime++;
-		m.setArrival(arrivalTime);
+		time++;
+		m.setArrival(time);
 		
 		switch (s) {
 		case 0:  priorityQueue.get(0).add(m);
@@ -38,14 +50,12 @@ public class MessagePriorityQueue{
 		}
 	}
 	
-	public boolean isEmpty() {
-		if(!priorityQueue.get(4).isEmpty() && !priorityQueue.get(3).isEmpty() && !priorityQueue.get(2).isEmpty() && !priorityQueue.get(1).isEmpty() && !priorityQueue.get(0).isEmpty()) {
-			return true;
-		}
-		return false;
-	}
-	
-	
+	/**
+	 * @author Aidan-S
+	 * date: April 24th, 2018
+	 * method: remove the highest priority queue from the priorityQueue
+	 * @return: the message that was removed
+	 */
 	public Message remove() {
 		int i = -1;
 		if(!priorityQueue.get(4).isEmpty()) {
@@ -64,101 +74,105 @@ public class MessagePriorityQueue{
 			i = 0;
 		}
 		
-		switch (i) {
-        case 0: arrivalTime += 4;
-        		return (Message) priorityQueue.get(0).remove(); 
-        case 1: arrivalTime += 4; 
-        		return (Message) priorityQueue.get(1).remove();
-        case 2: arrivalTime += 4; 
-        		return (Message) priorityQueue.get(2).remove();
-        case 3: arrivalTime += 4; 
-        		return (Message) priorityQueue.get(3).remove();
-        case 4: arrivalTime += 4; 
-        		return (Message) priorityQueue.get(4).remove();
-        default: System.out.println("All messages processed");
-        		return null;	
-	
-		}
+		Message m;
+		
+		if(i != -1) {
+			time += 4;
+        	m = (Message) priorityQueue.get(i).remove();
+       		m.setDeparture(time);
+       		return m; 
+		}else{
+			System.out.println("All messages processed");
+        	return null;
+		}		 
+		
 	}
 	
-	
+	/**
+	 * @author Aidan-S
+	 * date: April 24th, 2018
+	 * method: main method that tests the message and MessagePriorityQueue classes
+	 * @param args: string array of arguments
+	 */
 	public static void main (String[] args) {
+		
+		//------------------------------Simple Test------------------------
+		System.out.println("---Simple test---");
 		MessagePriorityQueue q = new MessagePriorityQueue();
-		Message m41 = new Message(4, "Four 1");
-		Message m42 = new Message(4, "Four 2");
-		Message m43 = new Message(4, "Four 3");
-		Message m44 = new Message(4, "Four 4");
 		
-		Message m31 = new Message(3, "Third 1");
-		Message m32 = new Message(3, "Third 2");
-		Message m33 = new Message(3, "Third 3");
-		Message m34 = new Message(3, "Third 4");
+		Message m4 = new Message(4, "Four");
+		Message m3 = new Message(3, "Three");
+		Message m2 = new Message(2, "Two");
+		Message m1 = new Message(1, "One");
+		Message m0 = new Message(0, "Zero");
 		
-		Message m21 = new Message(2, "Second 1");
-		Message m22 = new Message(2, "Second 2");
-		Message m23 = new Message(2, "Second 3");
-		Message m24 = new Message(2, "Second 4");
-		
-		Message m11 = new Message(1, "First 1");
-		Message m12 = new Message(1, "First 2");
-		Message m13 = new Message(1, "First 3");
-		Message m14 = new Message(1, "First 4");
-		
-		Message m01 = new Message(0, "Zero 1");
-		Message m02 = new Message(0, "Zero 2");
-		Message m03 = new Message(0, "Zero 3");
-		Message m04 = new Message(0, "Zero 4");
-		
-		q.add(m41);
-		q.add(m42);
-		q.add(m43);
-		q.add(m44);
-		q.add(m34);
-		q.add(m33);
-		q.add(m32);
-		q.add(m31);
-		q.add(m24);
-		q.add(m23);
-		q.add(m22);
-		q.add(m21);
-		q.add(m14);
-		q.add(m13);
-		q.add(m12);
-		q.add(m11);
-		q.add(m04);
-		q.add(m03);
-		q.add(m02);
-		q.add(m01);
+		q.add(m2);
+		q.add(m1);
+		q.add(m0);
+		q.add(m4);
+		q.add(m3);
 		
 		System.out.println(q.remove());
 		System.out.println(q.remove());
 		System.out.println(q.remove());
 		System.out.println(q.remove());
 		System.out.println(q.remove());
-		System.out.println(q.remove());
-		System.out.println(q.remove());
-		System.out.println(q.remove());
-		System.out.println(q.remove());
-		System.out.println(q.remove());
-		System.out.println(q.remove());
-		System.out.println(q.remove());
-		System.out.println(q.remove());
-		System.out.println(q.remove());
-		System.out.println(q.remove());
-		System.out.println(q.remove());
-		System.out.println(q.remove());
-		System.out.println(q.remove());
-		System.out.println(q.remove());
-		System.out.println(q.remove());
+		
+		System.out.println("\n" + "Total time: " + q.time + "\n\n---Complex test---");
+		
+		//------------------------------Complex Test------------------------
+		MessagePriorityQueue q2 = new MessagePriorityQueue();
+		
+		Message m41 = new Message(4, "Four");
+		Message m31 = new Message(3, "Three");
+		Message m21 = new Message(2, "Two");
+		Message m11 = new Message(1, "One");
+		Message m01 = new Message(0, "Zero");
+		Message m42 = new Message(4, "Four");
+		Message m32 = new Message(3, "Three");
+		Message m22 = new Message(2, "Two");
+		Message m12 = new Message(1, "One");
+		Message m02 = new Message(0, "Zero");
+		Message m43 = new Message(4, "Four");
+		Message m33 = new Message(3, "Three");
+		Message m23 = new Message(2, "Two");
+		Message m13 = new Message(1, "One");
+		Message m03 = new Message(0, "Zero");
+		
+		q2.add(m21);
+		q2.add(m11);
+		q2.add(m01);
+		q2.add(m41);
+		q2.add(m31);
+		q2.add(m22);
+		q2.add(m12);
+		q2.add(m02);
+		q2.add(m42);
+		q2.add(m32);
+		q2.add(m23);
+		q2.add(m13);
+		q2.add(m03);
+		q2.add(m43);
+		q2.add(m33);
+		
+		System.out.println(q2.remove());
+		System.out.println(q2.remove());
+		System.out.println(q2.remove());
+		System.out.println(q2.remove());
+		System.out.println(q2.remove());
+		System.out.println(q2.remove());
+		System.out.println(q2.remove());
+		System.out.println(q2.remove());
+		System.out.println(q2.remove());
+		System.out.println(q2.remove());
+		System.out.println(q2.remove());
+		System.out.println(q2.remove());
+		System.out.println(q2.remove());
+		System.out.println(q2.remove());
+		System.out.println(q2.remove());
 		
 		
-		System.out.println(m41.getArrivalTime());
-		System.out.println(m32.getArrivalTime());
-		System.out.println(m23.getArrivalTime());
-		System.out.println(m14.getArrivalTime());
-		System.out.println(m02.getArrivalTime());
-		
-		System.out.println(q.arrivalTime);
+		System.out.println("\n" + "Total time: " + q2.time + "\n\n**For all intents and purposes, the units are minutes");
 	}
 	
 	
