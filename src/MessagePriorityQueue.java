@@ -8,18 +8,19 @@ public class MessagePriorityQueue{
 	private ArrayList<Queue> priorityQueue;
 	private int time;
 	
+	public static final int LISTS = 5;
+	
 	/**
 	 * @author Aidan-S
 	 * date: April 24th, 2018
 	 * method: constructor that creates the priorityQueue by filling it with the 5 different priority queues
 	 */
 	public MessagePriorityQueue() {
-		priorityQueue = new ArrayList<Queue>(5);
-		priorityQueue.add(new LinkedList<Message>());
-		priorityQueue.add(new LinkedList<Message>());
-		priorityQueue.add(new LinkedList<Message>());
-		priorityQueue.add(new LinkedList<Message>());
-		priorityQueue.add(new LinkedList<Message>());
+		priorityQueue = new ArrayList<Queue>(LISTS);
+		
+		for(int i = 0; i < LISTS; i++) {
+			priorityQueue.add(new LinkedList<Message>());
+		}
 		time = 0;	
 	}
 	
@@ -35,19 +36,9 @@ public class MessagePriorityQueue{
 		time++;
 		m.setArrival(time);
 		
-		switch (s) {
-		case 0:  priorityQueue.get(0).add(m);
-        	  	 break;
-		case 1:  priorityQueue.get(1).add(m);
-                 break;
-        case 2:  priorityQueue.get(2).add(m);
-                 break;
-        case 3:  priorityQueue.get(3).add(m);
-                 break;
-        default: priorityQueue.get(4).add(m);
-                 break;
+		priorityQueue.get(s).add(m);
   
-		}
+		
 	}
 	
 	/**
