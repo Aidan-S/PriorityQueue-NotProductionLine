@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
+import java.util.Random;
 
 //
 public class MessagePriorityQueue{
@@ -8,18 +10,19 @@ public class MessagePriorityQueue{
 	private ArrayList<Queue> priorityQueue;
 	private int time;
 	
+	public static final int LISTS = 5;
+	
 	/**
 	 * @author Aidan-S
 	 * date: April 24th, 2018
 	 * method: constructor that creates the priorityQueue by filling it with the 5 different priority queues
 	 */
 	public MessagePriorityQueue() {
-		priorityQueue = new ArrayList<Queue>(5);
-		priorityQueue.add(new LinkedList<Message>());
-		priorityQueue.add(new LinkedList<Message>());
-		priorityQueue.add(new LinkedList<Message>());
-		priorityQueue.add(new LinkedList<Message>());
-		priorityQueue.add(new LinkedList<Message>());
+		priorityQueue = new ArrayList<Queue>(LISTS);
+		
+		for(int i = 0; i < LISTS; i++) {
+			priorityQueue.add(new LinkedList<Message>());
+		}
 		time = 0;	
 	}
 	
@@ -35,19 +38,9 @@ public class MessagePriorityQueue{
 		time++;
 		m.setArrival(time);
 		
-		switch (s) {
-		case 0:  priorityQueue.get(0).add(m);
-        	  	 break;
-		case 1:  priorityQueue.get(1).add(m);
-                 break;
-        case 2:  priorityQueue.get(2).add(m);
-                 break;
-        case 3:  priorityQueue.get(3).add(m);
-                 break;
-        default: priorityQueue.get(4).add(m);
-                 break;
+		priorityQueue.get(s).add(m);
   
-		}
+		
 	}
 	
 	/**
@@ -88,6 +81,39 @@ public class MessagePriorityQueue{
 		
 	}
 	
+	private boolean isEmpty() {
+		
+			int i = -1;
+			if(!priorityQueue.get(4).isEmpty()) {
+				return false;
+			}
+			if(!priorityQueue.get(3).isEmpty()) {
+				return false;
+			}
+			if(!priorityQueue.get(2).isEmpty()) {
+				return false;
+			}
+			if(!priorityQueue.get(1).isEmpty()) {
+				return false;
+			}
+			if(!priorityQueue.get(0).isEmpty()) {
+				return false;
+			}
+			return true;
+	}
+	
+	
+	
+	private static int average(ArrayList<Integer> list) {
+		  Integer count = 0;
+		  for (Integer item : list) {
+			  count += item;
+		  }
+		    
+		  return count / list.size();
+		}
+	
+	
 	/**
 	 * @author Aidan-S
 	 * date: April 24th, 2018
@@ -96,84 +122,242 @@ public class MessagePriorityQueue{
 	 */
 	public static void main (String[] args) {
 		
-		//------------------------------Simple Test------------------------
-		System.out.println("---Simple test---");
+
 		MessagePriorityQueue q = new MessagePriorityQueue();
 		
-		Message m4 = new Message(4, "Four");
-		Message m3 = new Message(3, "Three");
-		Message m2 = new Message(2, "Two");
-		Message m1 = new Message(1, "One");
-		Message m0 = new Message(0, "Zero");
 		
-		q.add(m2);
-		q.add(m1);
-		q.add(m0);
-		q.add(m4);
-		q.add(m3);
-		
-		System.out.println(q.remove());
-		System.out.println(q.remove());
-		System.out.println(q.remove());
-		System.out.println(q.remove());
-		System.out.println(q.remove());
-		
-		System.out.println("\n" + "Total time: " + q.time + "\n\n---Complex test---");
-		
-		//------------------------------Complex Test------------------------
-		MessagePriorityQueue q2 = new MessagePriorityQueue();
-		
-		Message m41 = new Message(4, "Four");
-		Message m31 = new Message(3, "Three");
-		Message m21 = new Message(2, "Two");
-		Message m11 = new Message(1, "One");
-		Message m01 = new Message(0, "Zero");
-		Message m42 = new Message(4, "Four");
-		Message m32 = new Message(3, "Three");
-		Message m22 = new Message(2, "Two");
-		Message m12 = new Message(1, "One");
-		Message m02 = new Message(0, "Zero");
-		Message m43 = new Message(4, "Four");
-		Message m33 = new Message(3, "Three");
-		Message m23 = new Message(2, "Two");
-		Message m13 = new Message(1, "One");
-		Message m03 = new Message(0, "Zero");
-		
-		q2.add(m21);
-		q2.add(m11);
-		q2.add(m01);
-		q2.add(m41);
-		q2.add(m31);
-		q2.add(m22);
-		q2.add(m12);
-		q2.add(m02);
-		q2.add(m42);
-		q2.add(m32);
-		q2.add(m23);
-		q2.add(m13);
-		q2.add(m03);
-		q2.add(m43);
-		q2.add(m33);
-		
-		System.out.println(q2.remove());
-		System.out.println(q2.remove());
-		System.out.println(q2.remove());
-		System.out.println(q2.remove());
-		System.out.println(q2.remove());
-		System.out.println(q2.remove());
-		System.out.println(q2.remove());
-		System.out.println(q2.remove());
-		System.out.println(q2.remove());
-		System.out.println(q2.remove());
-		System.out.println(q2.remove());
-		System.out.println(q2.remove());
-		System.out.println(q2.remove());
-		System.out.println(q2.remove());
-		System.out.println(q2.remove());
+		Message m;
+		ArrayList<Integer> zero = new ArrayList<Integer>();
+		ArrayList<Integer> one = new ArrayList<Integer>();
+		ArrayList<Integer> two = new ArrayList<Integer>();
+		ArrayList<Integer> three = new ArrayList<Integer>();
+		ArrayList<Integer> four = new ArrayList<Integer>();
 		
 		
-		System.out.println("\n" + "Total time: " + q2.time + "\n\n**For all intents and purposes, the units are minutes");
+		for(int i = 0; i < 130; i++) {
+			q.add(new Message((int)(Math.random() * 5), "Number " + i));
+			
+			if(i > 10) {
+				m = q.remove();
+				if(m.getPriority() == 0) {
+					zero.add(m.getDeparture() - m.getArrivalTime());
+				}
+				
+				if(m.getPriority() == 1) {
+					one.add(m.getDeparture() - m.getArrivalTime());
+				}
+				
+				if(m.getPriority() == 2) {
+					two.add(m.getDeparture() - m.getArrivalTime());
+				}
+				
+				if(m.getPriority() == 3) {
+					three.add(m.getDeparture() - m.getArrivalTime());
+				}
+
+				if(m.getPriority() == 4) {
+					four.add(m.getDeparture() - m.getArrivalTime());
+				}
+				
+				System.out.println(m);
+			}
+			
+		}
+		
+		
+		
+		
+		while(!q.isEmpty()) {
+			m = q.remove();
+			if(m.getPriority() == 0) {
+				zero.add(m.getDeparture() - m.getArrivalTime());
+			}
+			
+			if(m.getPriority() == 1) {
+				one.add(m.getDeparture() - m.getArrivalTime());
+			}
+			
+			if(m.getPriority() == 2) {
+				two.add(m.getDeparture() - m.getArrivalTime());
+			}
+			
+			if(m.getPriority() == 3) {
+				three.add(m.getDeparture() - m.getArrivalTime());
+			}
+
+			if(m.getPriority() == 4) {
+				four.add(m.getDeparture() - m.getArrivalTime());
+			}
+			
+			System.out.println(m);
+		}
+		
+		
+		System.out.println("\n100 items");
+		System.out.println("Average time: " + average(zero));
+		System.out.println("Average time: " + average(one));
+		System.out.println("Average time: " + average(two));
+		System.out.println("Average time: " + average(three));
+		System.out.println("Average time: " + average(four));
+		
+		
+		
+		System.out.println("\n\n");
+		
+		zero.clear();
+		one.clear();
+		two.clear();
+		three.clear();
+		four.clear();
+		
+		
+		
+		for(int i = 0; i < 1030; i++) {
+			q.add(new Message((int)(Math.random() * 5), "Number " + i));
+			
+			if(i > 10) {
+				m = q.remove();
+				if(m.getPriority() == 0) {
+					zero.add(m.getDeparture() - m.getArrivalTime());
+				}
+				
+				if(m.getPriority() == 1) {
+					one.add(m.getDeparture() - m.getArrivalTime());
+				}
+				
+				if(m.getPriority() == 2) {
+					two.add(m.getDeparture() - m.getArrivalTime());
+				}
+				
+				if(m.getPriority() == 3) {
+					three.add(m.getDeparture() - m.getArrivalTime());
+				}
+
+				if(m.getPriority() == 4) {
+					four.add(m.getDeparture() - m.getArrivalTime());
+				}
+				
+				
+			}
+			
+		}
+		
+		
+		
+		
+		while(!q.isEmpty()) {
+			m = q.remove();
+			if(m.getPriority() == 0) {
+				zero.add(m.getDeparture() - m.getArrivalTime());
+			}
+			
+			if(m.getPriority() == 1) {
+				one.add(m.getDeparture() - m.getArrivalTime());
+			}
+			
+			if(m.getPriority() == 2) {
+				two.add(m.getDeparture() - m.getArrivalTime());
+			}
+			
+			if(m.getPriority() == 3) {
+				three.add(m.getDeparture() - m.getArrivalTime());
+			}
+
+			if(m.getPriority() == 4) {
+				four.add(m.getDeparture() - m.getArrivalTime());
+			}
+			
+
+		}
+		
+		
+		System.out.println("\n1000 items");
+		System.out.println("Average time: " + average(zero));
+		System.out.println("Average time: " + average(one));
+		System.out.println("Average time: " + average(two));
+		System.out.println("Average time: " + average(three));
+		System.out.println("Average time: " + average(four));
+		
+
+		System.out.println("\n\n");
+		
+		zero.clear();
+		one.clear();
+		two.clear();
+		three.clear();
+		four.clear();
+		
+		
+		
+		for(int i = 0; i < 10030; i++) {
+			q.add(new Message((int)(Math.random() * 5), "Number " + i));
+			
+			if(i > 10) {
+				m = q.remove();
+				if(m.getPriority() == 0) {
+					zero.add(m.getDeparture() - m.getArrivalTime());
+				}
+				
+				if(m.getPriority() == 1) {
+					one.add(m.getDeparture() - m.getArrivalTime());
+				}
+				
+				if(m.getPriority() == 2) {
+					two.add(m.getDeparture() - m.getArrivalTime());
+				}
+				
+				if(m.getPriority() == 3) {
+					three.add(m.getDeparture() - m.getArrivalTime());
+				}
+
+				if(m.getPriority() == 4) {
+					four.add(m.getDeparture() - m.getArrivalTime());
+				}
+				
+				
+			}
+			
+		}
+		
+		
+		
+		
+		while(!q.isEmpty()) {
+			m = q.remove();
+			if(m.getPriority() == 0) {
+				zero.add(m.getDeparture() - m.getArrivalTime());
+			}
+			
+			if(m.getPriority() == 1) {
+				one.add(m.getDeparture() - m.getArrivalTime());
+			}
+			
+			if(m.getPriority() == 2) {
+				two.add(m.getDeparture() - m.getArrivalTime());
+			}
+			
+			if(m.getPriority() == 3) {
+				three.add(m.getDeparture() - m.getArrivalTime());
+			}
+
+			if(m.getPriority() == 4) {
+				four.add(m.getDeparture() - m.getArrivalTime());
+			}
+			
+
+		}
+		
+		
+		System.out.println("\n10000 items");
+		System.out.println("Average time: " + average(zero));
+		System.out.println("Average time: " + average(one));
+		System.out.println("Average time: " + average(two));
+		System.out.println("Average time: " + average(three));
+		System.out.println("Average time: " + average(four));
+		
+		
 	}
+	
 	
 	
 }
