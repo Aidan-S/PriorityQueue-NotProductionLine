@@ -12,6 +12,13 @@ public class MessagePriorityQueue{
 	
 	public static final int LISTS = 5;
 	
+	public static final int TEST_ONE = 100;
+	public static final int TEST_TWO = 1000;
+	public static final int TEST_THREE = 10000;
+	
+	public static final int BUFFER = 30;
+	
+	
 	/**
 	 * @author Aidan-S
 	 * date: April 24th, 2018
@@ -81,6 +88,13 @@ public class MessagePriorityQueue{
 		
 	}
 	
+	
+	/**
+	 * @author Aidan-S
+	 * date: April 24th, 2018
+	 * method: determine if the priority queue is empty
+	 * @return: whether there is anything in the queue
+	 */
 	private boolean isEmpty() {
 		
 			int i = -1;
@@ -103,7 +117,13 @@ public class MessagePriorityQueue{
 	}
 	
 	
-	
+	/**
+	 * @author Aidan-S
+	 * date: April 24th, 2018
+	 * method: determine the average of a list of ints
+	 * @parameter: list: list of ints to find the average of
+	 * @return: the average num
+	 */
 	private static int average(ArrayList<Integer> list) {
 		  Integer count = 0;
 		  for (Integer item : list) {
@@ -114,18 +134,18 @@ public class MessagePriorityQueue{
 		}
 	
 	
+	
 	/**
 	 * @author Aidan-S
 	 * date: April 24th, 2018
-	 * method: main method that tests the message and MessagePriorityQueue classes
-	 * @param args: string array of arguments
+	 * method: determine if the priority queue is empty
+	 * @parameter: test making a priority queue that is taking in different amounts of messages
+	 * @return: whether there is anything in the queue
 	 */
-	public static void main (String[] args) {
-		
-
+	private static void runQ(int k) {
 		MessagePriorityQueue q = new MessagePriorityQueue();
 		
-		
+		//create the lists to hold the different times in the queue
 		Message m;
 		ArrayList<Integer> zero = new ArrayList<Integer>();
 		ArrayList<Integer> one = new ArrayList<Integer>();
@@ -134,7 +154,7 @@ public class MessagePriorityQueue{
 		ArrayList<Integer> four = new ArrayList<Integer>();
 		
 		
-		for(int i = 0; i < 130; i++) {
+		for(int i = 0; i < k+BUFFER; i++) {
 			q.add(new Message((int)(Math.random() * 5), "Number " + i));
 			
 			if(i > 10) {
@@ -159,203 +179,64 @@ public class MessagePriorityQueue{
 					four.add(m.getDeparture() - m.getArrivalTime());
 				}
 				
+				//only print if there aren't too many messages to print
+				if(k < 200)
+					System.out.println(m);
+			}
+			
+		}
+		
+		
+		
+		
+		while(!q.isEmpty()) {
+			m = q.remove();
+			if(m.getPriority() == 0) {
+				zero.add(m.getDeparture() - m.getArrivalTime());
+			}
+			
+			if(m.getPriority() == 1) {
+				one.add(m.getDeparture() - m.getArrivalTime());
+			}
+			
+			if(m.getPriority() == 2) {
+				two.add(m.getDeparture() - m.getArrivalTime());
+			}
+			
+			if(m.getPriority() == 3) {
+				three.add(m.getDeparture() - m.getArrivalTime());
+			}
+
+			if(m.getPriority() == 4) {
+				four.add(m.getDeparture() - m.getArrivalTime());
+			}
+			
+			//only print if there aren't too many messages to print
+			if(k < 200)
 				System.out.println(m);
-			}
-			
 		}
 		
 		
 		
-		
-		while(!q.isEmpty()) {
-			m = q.remove();
-			if(m.getPriority() == 0) {
-				zero.add(m.getDeparture() - m.getArrivalTime());
-			}
-			
-			if(m.getPriority() == 1) {
-				one.add(m.getDeparture() - m.getArrivalTime());
-			}
-			
-			if(m.getPriority() == 2) {
-				two.add(m.getDeparture() - m.getArrivalTime());
-			}
-			
-			if(m.getPriority() == 3) {
-				three.add(m.getDeparture() - m.getArrivalTime());
-			}
-
-			if(m.getPriority() == 4) {
-				four.add(m.getDeparture() - m.getArrivalTime());
-			}
-			
-			System.out.println(m);
-		}
-		
-		
-		System.out.println("\n100 items");
+		System.out.println("\n" + k +" items");
 		System.out.println("Average time: " + average(zero));
 		System.out.println("Average time: " + average(one));
 		System.out.println("Average time: " + average(two));
 		System.out.println("Average time: " + average(three));
-		System.out.println("Average time: " + average(four));
-		
-		
-		
-		System.out.println("\n\n");
-		
-		zero.clear();
-		one.clear();
-		two.clear();
-		three.clear();
-		four.clear();
-		
-		
-		
-		for(int i = 0; i < 1030; i++) {
-			q.add(new Message((int)(Math.random() * 5), "Number " + i));
-			
-			if(i > 10) {
-				m = q.remove();
-				if(m.getPriority() == 0) {
-					zero.add(m.getDeparture() - m.getArrivalTime());
-				}
-				
-				if(m.getPriority() == 1) {
-					one.add(m.getDeparture() - m.getArrivalTime());
-				}
-				
-				if(m.getPriority() == 2) {
-					two.add(m.getDeparture() - m.getArrivalTime());
-				}
-				
-				if(m.getPriority() == 3) {
-					three.add(m.getDeparture() - m.getArrivalTime());
-				}
-
-				if(m.getPriority() == 4) {
-					four.add(m.getDeparture() - m.getArrivalTime());
-				}
-				
-				
-			}
-			
-		}
-		
-		
-		
-		
-		while(!q.isEmpty()) {
-			m = q.remove();
-			if(m.getPriority() == 0) {
-				zero.add(m.getDeparture() - m.getArrivalTime());
-			}
-			
-			if(m.getPriority() == 1) {
-				one.add(m.getDeparture() - m.getArrivalTime());
-			}
-			
-			if(m.getPriority() == 2) {
-				two.add(m.getDeparture() - m.getArrivalTime());
-			}
-			
-			if(m.getPriority() == 3) {
-				three.add(m.getDeparture() - m.getArrivalTime());
-			}
-
-			if(m.getPriority() == 4) {
-				four.add(m.getDeparture() - m.getArrivalTime());
-			}
-			
-
-		}
-		
-		
-		System.out.println("\n1000 items");
-		System.out.println("Average time: " + average(zero));
-		System.out.println("Average time: " + average(one));
-		System.out.println("Average time: " + average(two));
-		System.out.println("Average time: " + average(three));
-		System.out.println("Average time: " + average(four));
-		
-
-		System.out.println("\n\n");
-		
-		zero.clear();
-		one.clear();
-		two.clear();
-		three.clear();
-		four.clear();
-		
-		
-		
-		for(int i = 0; i < 10030; i++) {
-			q.add(new Message((int)(Math.random() * 5), "Number " + i));
-			
-			if(i > 10) {
-				m = q.remove();
-				if(m.getPriority() == 0) {
-					zero.add(m.getDeparture() - m.getArrivalTime());
-				}
-				
-				if(m.getPriority() == 1) {
-					one.add(m.getDeparture() - m.getArrivalTime());
-				}
-				
-				if(m.getPriority() == 2) {
-					two.add(m.getDeparture() - m.getArrivalTime());
-				}
-				
-				if(m.getPriority() == 3) {
-					three.add(m.getDeparture() - m.getArrivalTime());
-				}
-
-				if(m.getPriority() == 4) {
-					four.add(m.getDeparture() - m.getArrivalTime());
-				}
-				
-				
-			}
-			
-		}
-		
-		
-		
-		
-		while(!q.isEmpty()) {
-			m = q.remove();
-			if(m.getPriority() == 0) {
-				zero.add(m.getDeparture() - m.getArrivalTime());
-			}
-			
-			if(m.getPriority() == 1) {
-				one.add(m.getDeparture() - m.getArrivalTime());
-			}
-			
-			if(m.getPriority() == 2) {
-				two.add(m.getDeparture() - m.getArrivalTime());
-			}
-			
-			if(m.getPriority() == 3) {
-				three.add(m.getDeparture() - m.getArrivalTime());
-			}
-
-			if(m.getPriority() == 4) {
-				four.add(m.getDeparture() - m.getArrivalTime());
-			}
-			
-
-		}
-		
-		
-		System.out.println("\n10000 items");
-		System.out.println("Average time: " + average(zero));
-		System.out.println("Average time: " + average(one));
-		System.out.println("Average time: " + average(two));
-		System.out.println("Average time: " + average(three));
-		System.out.println("Average time: " + average(four));
-		
-		
+		System.out.println("Average time: " + average(four) + "\n");
+	}
+	
+	
+	/**
+	 * @author Aidan-S
+	 * date: April 24th, 2018
+	 * method: main method that tests the message and MessagePriorityQueue classes
+	 * @param args: string array of arguments
+	 */
+	public static void main (String[] args) {
+		runQ(TEST_ONE);
+		runQ(TEST_TWO);
+		runQ(TEST_THREE);
 	}
 	
 	
